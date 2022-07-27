@@ -1,5 +1,4 @@
 const express = require('express');
-// const { request } = require('http');
 const path = require('path');
 const app = express();
 
@@ -14,6 +13,6 @@ require('./routes/apiRoutes')(app);
 require('./routes/htmlRoutes')(app);
 
 // listen to port 
-app.listen(PORT, () =>
+app.listen(PORT, () => {
     console.log(`Listening at PORT: ${PORT}`)
-);
+});
