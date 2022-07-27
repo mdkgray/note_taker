@@ -10,5 +10,9 @@ module.exports = (app) => {
         userNotesData.push(req.body);
         res.json(true);
         fs.writeFileSync('./db/db.json', JSON.stringify(userNotesData));
+
+        console.log(`${req.method} request received`);
+        
+        res.json(`${req.method} request received`);
     });
 }
