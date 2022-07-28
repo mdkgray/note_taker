@@ -35,13 +35,13 @@ module.exports = (app) => {
     });
 
     // DELETE route for deleting a note
-    app.delete('/api/notes', (req, req) => {
+    app.delete('/api/notes', (req, res) => {
         const noteId = req.params.id;
 
         readFromFile('./db/db.json')
           .then((userNotesData) => JSON.parse(userNotesData))
           .then((json) => {
-            
+
             const newNotes = json.filter((note) => note.id !== noteId);
 
             writeToFile('./db/db.json', newNotes);
