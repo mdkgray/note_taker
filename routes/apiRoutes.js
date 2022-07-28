@@ -4,17 +4,28 @@ const fs = require('fs');
 const { readFromFile, readAndAppend, writeToFile, } = require('../helpers/fsUtils');
 
 module.exports = (app) => {
-    app.get('/api/notes', (req, res) => res.json(userNotesData));
+    // GET route for retrieving all notes 
+    app.get('/api/notes', (req, res) => {
+        readFromFile('../db/db.json').then((userNotesData) => res.json(userNotesData));
+    });
 
     app.post('/api/notes', (req, res) => {
-        req.body['id'] = uniqid();
-        userNotesData.push(req.body);
-        res.json(true);
-        fs.writeFileSync('./db/db.json', JSON.stringify(userNotesData));
+        console.log(req.body);
 
-        console.log(`${req.method} request received`);
+        const { title, text } = req.body;
 
-        res.json(`${req.method} request received`);
+        if (req.body) {
+            const newNote = {
+                title, 
+                text, 
+                id: uniqid(),
+            };
+
+            readAndAppend(newNote, './db/db.json');
+            res.json(`New note added successfully`);
+        } else {
+            res.error(`Cannot add new note`);
+        }
     });
 }
 
