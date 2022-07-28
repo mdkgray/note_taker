@@ -27,7 +27,7 @@ module.exports = (app) => {
                 id: uniqid(),
             };
 
-            readAndAppend(newNote, './db/db.json');
+            readAndAppend(newNote, '../db/db.json');
             res.json(`New note added successfully`);
         } else {
             res.error(`Cannot add new note`);
@@ -35,16 +35,16 @@ module.exports = (app) => {
     });
 
     // DELETE route for deleting a note
-    app.delete('/api/notes', (req, res) => {
+    app.delete('/api/notes/:id', (req, res) => {
         const noteId = req.params.id;
 
-        readFromFile('./db/db.json')
+        readFromFile('../db/db.json')
           .then((userNotesData) => JSON.parse(userNotesData))
           .then((json) => {
 
             const newNotes = json.filter((note) => note.id !== noteId);
 
-            writeToFile('./db/db.json', newNotes);
+            writeToFile('../db/db.json', newNotes);
 
             res.json(`Note ${noteId} deleted successfully`);            
         });
