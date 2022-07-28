@@ -1,6 +1,11 @@
-const userNotesData = require('../db/db.json');
-const uniqid = require('uniqid');
 const fs = require('fs');
+// Variable for db.json file
+const userNotesData = require('../db/db.json');
+
+// variable for uniqid
+const uniqid = require('uniqid');
+
+// variable for helper functions in fsUtils file
 const { readFromFile, readAndAppend, writeToFile, } = require('../helpers/fsUtils');
 
 module.exports = (app) => {
@@ -9,6 +14,7 @@ module.exports = (app) => {
         readFromFile('../db/db.json').then((userNotesData) => res.json(userNotesData));
     });
 
+    // POST route for sending new note
     app.post('/api/notes', (req, res) => {
         console.log(req.body);
 
@@ -28,6 +34,3 @@ module.exports = (app) => {
         }
     });
 }
-
-
-// Generate helper function folder and write functions to readFile etc then link that page to top of page
