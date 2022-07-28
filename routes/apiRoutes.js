@@ -33,4 +33,20 @@ module.exports = (app) => {
             res.error(`Cannot add new note`);
         }
     });
-}
+
+    // DELETE route for deleting a note
+    app.delete('/api/notes', (req, req) => {
+        const noteId = req.params.id;
+
+        readFromFile('./db/db.json')
+          .then((userNotesData) => JSON.parse(userNotesData))
+          .then((json) => {
+            
+            const newNotes = json.filter((note) => note.id !== noteId);
+
+            writeToFile('./db/db.json', newNotes);
+
+            res.json(`Note ${noteId} deleted successfully`);            
+        });
+    });
+};
