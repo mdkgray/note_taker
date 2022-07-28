@@ -1,5 +1,6 @@
 const express = require('express');
-const path = require('path');
+const apiRoutes = require('./routes/apiRoutes');
+const htmlRoutes = require('./routes/htmlRoutes');
 
 //variable for PORT
 const PORT = process.env.PORT || 3001;
@@ -10,10 +11,8 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
-
-// Require routes for HTML and API
-require('./routes/apiRoutes')(app);
-require('./routes/htmlRoutes')(app);
+app.use('/api', apiRoutes);
+app.use('/', htmlRoutes);
 
 // listen to port 
 app.listen(PORT, () => {
