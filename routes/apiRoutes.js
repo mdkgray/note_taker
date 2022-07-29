@@ -10,11 +10,11 @@ const { v4: uuidv4 } = require('uuid');
 
 // variable for helper functions in fsUtils file
 const { readFromFile, readAndAppend, writeToFile, } = require('../helpers/fsUtils');
-const { resourceLimits } = require('worker_threads');
+// const { resourceLimits } = require('worker_threads');
 
 // GET route for retrieving all notes 
 router.get('/api/notes', (req, res) => {
-    readFromFile('../db/db.json').then((userNotesData) => res.json(userNotesData));
+    readFromFile('../db/db.json').then((data) => res.json(JSON.parse(data)));
 });
 
 //GET route for a specific note
@@ -22,7 +22,7 @@ router.get('/api/notes/:id', (req, res) => {
     const noteId = req.params.id;
 
     readFromFile('../db/db.json')
-     .then((userNotesData) => JSON.parse(userNotesData))
+     .then((data) => JSON.parse(data))
      .then((json) => {
         const newNotes = json.filter((note) => note.id === noteId);
         return result.length > 0
@@ -32,7 +32,7 @@ router.get('/api/notes/:id', (req, res) => {
 
 // POST route for sending new note
 router.post('/api/notes', (req, res) => {
-    console.log(req.body);
+    console.info(`${req.method} request received to add a note`);
 
     const { title, text } = req.body;
 
@@ -55,7 +55,7 @@ router.delete('/api/notes/:id', (req, res) => {
     const noteId = req.params.id;
 
     readFromFile('../db/db.json')
-        .then((userNotesData) => JSON.parse(userNotesData))
+        .then((data) => JSON.parse(data))
         .then((json) => {
 
         const newNotes = json.filter((note) => note.id !== noteId);
