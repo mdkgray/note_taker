@@ -1,4 +1,6 @@
 const router = require('express').Router();
+const path = require('path');
+
 const fs = require('fs');
 // Variable for db.json file
 const userNotesData = require('../db/db.json');
@@ -8,10 +10,24 @@ const uniqid = require('uniqid');
 
 // variable for helper functions in fsUtils file
 const { readFromFile, readAndAppend, writeToFile, } = require('../helpers/fsUtils');
+const { resourceLimits } = require('worker_threads');
 
 // GET route for retrieving all notes 
 router.get('/api/notes', (req, res) => {
     readFromFile('../db/db.json').then((userNotesData) => res.json(userNotesData));
+});
+
+//GET route for a specific note
+router.get('/api/notes/:id', (req, res) => {
+    const noteId = req.params.id;
+
+    readFromFile('../db/db.json')
+     .then((userNotesData) => JSON.parse(userNotesData))
+     .then((json) => {
+        const newNotes = json.filter((note) => note.id === noteId);
+        return result.length > 0
+        ? res.json(newNotes) : res.json('No note with that id was found');
+     });
 });
 
 // POST route for sending new note
