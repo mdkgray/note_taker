@@ -6,7 +6,7 @@ const fs = require('fs');
 const userNotesData = require('../db/db.json');
 
 // variable for uniqid
-const uniqid = require('uniqid');
+const { v4: uuidv4 } = require('uuid');
 
 // variable for helper functions in fsUtils file
 const { readFromFile, readAndAppend, writeToFile, } = require('../helpers/fsUtils');
@@ -40,7 +40,7 @@ router.post('/api/notes', (req, res) => {
         const newNote = {
             title, 
             text, 
-            id: uniqid(),
+            id: uuidv4(),
         };
 
         readAndAppend(newNote, '../db/db.json');
