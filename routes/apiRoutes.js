@@ -11,7 +11,6 @@ const { v4: uuidv4 } = require('uuid');
 
 // variable for helper functions in fsUtils file
 const { readFromFile, readAndAppend, writeToFile, } = require('../helpers/fsUtils');
-// const { resourceLimits } = require('worker_threads');
 
 // GET route for retrieving all notes 
 router.get('/notes', (req, res) => {
